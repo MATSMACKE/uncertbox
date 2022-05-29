@@ -59,12 +59,9 @@ We will plot a graph of \texttt{sini} against \texttt{sinr} with uncertainties \
         width = \textwidth]
         \prepareuncertbox
 
-        \addplot[red, dashed, domain = 0:0.95] {0.6154*x + 0.02512};
+        \addplot[domain = 0:0.95] {0.6709*x}; % Line of best fit
 
-        \addplot[purple, domain = 0:0.95] {0.6709*x};
-        \addplot[green, dashed, domain = 0:0.95] {0.7052*x - 0.01311};
-
-        \addplot [blue, only marks, mark = x] table [x={sini}, y={sinr}] {\table};
+        \addplot [blue, only marks, mark = x] table [x={sini}, y={sinr}] {\table}; % Data points
 
     \end{axis}
 
@@ -89,9 +86,10 @@ The code is as follows:
 
         \prepareuncertbox
 
-        \addplot[red, dashed, domain = 0:0.95] {0.6154*x + 0.02512};
+        % Line of best fit
         \addplot[purple, domain = 0:0.95] {0.6709*x};
-        \addplot[green, dashed, domain = 0:0.95] {0.7052*x - 0.01311};
+        
+        % Data points
         \addplot [blue, only marks, mark = x] table [x={sini}, y={sinr}] {\table};
     \end{axis}
 
