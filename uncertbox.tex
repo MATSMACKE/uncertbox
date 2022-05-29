@@ -1,0 +1,119 @@
+\documentclass{article}
+
+\usepackage{uncertbox}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{csvsimple}
+
+\begin{document}
+\title{uncertbox}    
+\author{Mats Macke}
+\maketitle
+
+\section{Introduction}
+\texttt{uncertbox} is a \LaTeX\ package for drawing uncertainty boxes on \texttt{pgfplots} graphs. I found that my solution to drawing uncertainty boxes was a bit cumbersome, so I put it in a package to provide a nice and clean interface and share it with others.
+
+\section{Usage}
+Using \texttt{uncertbox} is very simple. First, you obviously need a graph to add uncertainty boxes to. This should be done with \texttt{pgfplots}, with an \texttt{axis} environment inside a \texttt{tikzpicture} environment. Inside the \texttt{axis} environment, put the following command:
+
+\vspace{10pt}
+\verb|\prepareuncertbox|
+\vspace{10pt}
+
+\noindent
+Then, put the following command inside \texttt{tikzpicture} but after \texttt{axis}
+
+\vspace{10pt}
+
+\verb|\makeuncertboxes{num}{x}{y}{dx}{dy}|
+
+\vspace{10pt}
+
+where \texttt{num} is the number of data points, \texttt{x} is the column of your data table corresponding to the x values, \texttt{y} is the column of your data table corresponding to the y values, \texttt{dx} is the column of your data table corresponding to the uncertainties in x values and \texttt{dy} is the column of your data table corresponding to the uncertainties in y values.
+
+\newpage
+\section{Example}
+\pgfplotstableread[col sep = comma]{data.csv}{\table}
+First, we read \texttt{data.csv}, which contains the following data:
+\vspace{10pt}
+
+\noindent
+\csvautotabular{data.csv}
+
+\vspace{10pt}
+
+\verb*|\pgfplotstableread[col sep = comma]{data.csv}{\table}|
+
+\vspace{10pt}
+
+\noindent
+We will plot a graph of \texttt{sini} against \texttt{sinr} with uncertainties \texttt{dsini} and \texttt{dsinr}. Using the \texttt{prepareuncertbox} and \texttt{makeuncertboxes} commands, we will add uncertainty boxes.
+
+\vspace{10pt}
+
+\noindent
+\begin{tikzpicture}
+    \begin{axis}[
+        xmin = -0.1, xmax = 1, 
+        ymin = -0.1, ymax = 0.65,
+        width = \textwidth]
+        \prepareuncertbox
+
+        \addplot[red, dashed, domain = 0:0.95] {0.6154*x + 0.02512};
+
+        \addplot[purple, domain = 0:0.95] {0.6709*x};
+        \addplot[green, dashed, domain = 0:0.95] {0.7052*x - 0.01311};
+
+        \addplot [blue, only marks, mark = x] table [x={sini}, y={sinr}] {\table};
+
+    \end{axis}
+
+    \makeuncertboxes{8}{sini}{sinr}{dsini}{dsinr}
+
+\end{tikzpicture}
+
+\vspace{10pt}
+
+The code is as follows:
+
+\vspace{10pt}
+
+
+\newpage
+\begin{verbatim}
+\begin{tikzpicture}
+    \begin{axis}[
+        xmin = -0.1, xmax = 1, 
+        ymin = -0.1, ymax = 0.65,
+        width = \textwidth]
+
+        \prepareuncertbox
+
+        \addplot[red, dashed, domain = 0:0.95] {0.6154*x + 0.02512};
+        \addplot[purple, domain = 0:0.95] {0.6709*x};
+        \addplot[green, dashed, domain = 0:0.95] {0.7052*x - 0.01311};
+        \addplot [blue, only marks, mark = x] table [x={sini}, y={sinr}] {\table};
+    \end{axis}
+
+    \makeuncertboxes{8}{sini}{sinr}{dsini}{dsinr}
+
+\end{tikzpicture}|
+
+\end{verbatim}
+
+\section{License}
+Copyright 2022 Mats Macke
+
+\vspace{10pt}
+\noindent
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+\vspace{10pt}
+\noindent
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+\vspace{10pt}
+\noindent
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+\end{document}
