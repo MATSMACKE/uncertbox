@@ -83,21 +83,23 @@ The code is as follows:
         xmin = -0.1, xmax = 1, 
         ymin = -0.1, ymax = 0.67,
         width = \textwidth]
-
+\end{verbatim}
+{\color{red!70!black}\begin{verbatim}
         \prepareuncertbox
-
+\end{verbatim}}
+\begin{verbatim}
         % Line of best fit
         \addplot[purple, domain = 0:0.95] {0.6709*x};
         
         % Data points
         \addplot [blue, only marks, mark = x] table [x={sini}, y={sinr}] {\table};
     \end{axis}
-
-    \makeuncertboxes{8}{sini}{sinr}{dsini}{dsinr}
-
-\end{tikzpicture}|
-
 \end{verbatim}
+{\color{red!70!black}\begin{verbatim}
+    \makeuncertboxes{8}{sini}{sinr}{dsini}{dsinr}
+\end{verbatim}}
+\verb|\end{tikzpicture}|
+
 
 \section{License}
 Copyright 2022 Mats Macke
